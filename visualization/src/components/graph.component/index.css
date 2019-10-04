@@ -1,0 +1,368 @@
+@font-face {
+  font-family: "Rajdhani";
+  src: url("./fonts/Rajdhani-Regular.ttf") format("truetype");
+}
+
+:root {
+  --final-text-speed: 0.5s;
+  --final-text-last-speed: 5s;
+}
+
+/* MAIN SVG */
+svg.main-svg {
+  font-family: Arial, Helvetica, sans-serif;
+  background: #2e2e2e;
+  font-size: 14px;
+}
+
+/* MAIN TITLE */
+g.title-group {
+  transform: translateY(6%);
+  fill: white;
+  text-transform: uppercase;
+  font-family: "Rajdhani", sans-serif;
+}
+
+g.title-group text.title {
+  font-size: 149%;
+  transform: translateX(3%);
+}
+
+g.title-group text.subtitle {
+  font-size: 80%;
+  transform: translateY(2.5%) translateX(3%);
+}
+
+g.title-group line.title-line {
+  stroke: white;
+  transform: translateY(4%);
+}
+
+/* GRAPH GROUP */
+g.graph-group {
+  transform: translateY(6%);
+}
+
+/* CIRCLES */
+g.graph-group circle.axis-circle {
+  fill: #e9e9e9;
+  stroke: white;
+}
+
+g.graph-group circle.axis-circle.inner-1 {
+  fill: #ffd5d7;
+}
+g.graph-group circle.axis-circle.inner-2 {
+  fill: #f9a7ac;
+}
+g.graph-group circle.axis-circle.inner-3 {
+  fill: #ed7883;
+}
+g.graph-group circle.axis-circle.outter {
+  fill: #de425b;
+}
+
+/* MONTHS */
+g.graph-group line.month-separator {
+  transform-origin: 50% 50%;
+  stroke: white;
+}
+
+g.graph-group text.month-text {
+  transform-origin: 50% 50%;
+  font-size: 80%;
+  fill: white;
+}
+
+/* PATHS */
+g.graph-group g.paths {
+  transform: translateX(50%) translateY(50%);
+  stroke: blue;
+  opacity: 0.8;
+  stroke-width: 0.5%;
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+g.graph-group g.paths path.old-year {
+  animation: fadePath 0.4s linear forwards;
+}
+@keyframes fadePath {
+  to {
+    stroke: #f7f7f7;
+    stroke-width: 0.1px;
+    opacity: 0.7;
+  }
+}
+
+g.graph-group g.paths circle.alert-circle {
+  fill: white;
+  stroke: red;
+  stroke-width: 0.1px;
+  opacity: 0.8;
+  animation: alertAppear 0.6s linear forwards;
+}
+@keyframes alertAppear {
+  0% {
+    r: 0%;
+    opacity: 0;
+  }
+  10% {
+    r: 4%;
+    opacity: 1;
+  }
+  100% {
+    r: 1%;
+    opacity: 0.8;
+  }
+}
+
+/* YEAR TEXT */
+g.graph-group text.year-subtitle {
+  font-size: 100%;
+  fill: white;
+  transform: translateX(3%) translateY(11%);
+  font-family: "Rajdhani", sans-serif;
+}
+
+g.graph-group text.year-text {
+  font-size: 252%;
+  fill: white;
+  transform: translateX(2.2%) translateY(17%);
+}
+
+/* BUBBLE */
+g.graph-group g.bubble-group circle.bubble {
+  fill: #488f31;
+  cx: 50%;
+  cy: 50%;
+  r: 6%;
+}
+
+g.graph-group g.bubble-group.changed circle.bubble {
+  fill: #de425b;
+  stroke: #f5c6cb;
+}
+
+g.graph-group g.bubble-group.updated circle.bubble {
+  animation: bubbleUpdated 0.6s linear forwards;
+}
+@keyframes bubbleUpdated {
+  10% {
+    r: 8%;
+    opacity: 0.9;
+  }
+  100% {
+    r: 6%;
+    opacity: 1;
+  }
+}
+
+g.graph-group g.bubble-group.ended circle.bubble {
+  animation: bubbleEnded 1s linear forwards;
+}
+@keyframes bubbleEnded {
+  to {
+    r: 100%;
+  }
+}
+
+g.graph-group g.bubble-group text.text-bubble {
+  fill: white;
+  font-size: 170%;
+}
+
+g.graph-group g.bubble-group text.text-bubble-subtitle {
+  fill: white;
+  font-size: 70%;
+  transform: translateY(2.5%);
+}
+
+g.graph-group g.bubble-group.ended text.text-bubble {
+  animation: bubbleTextEnded 1s linear forwards;
+}
+@keyframes bubbleTextEnded {
+  to {
+    font-size: 430%;
+    transform: translateX(1%) translateY(-19%);
+  }
+}
+
+g.graph-group g.bubble-group.ended text.text-bubble-subtitle {
+  display: none;
+}
+
+/* LABELS */
+g.graph-group g.chart-labels {
+  transform: translateX(2%) translateY(80%);
+}
+
+g.graph-group g.chart-labels rect.color-label {
+  width: 2em;
+  height: 1em;
+  stroke: white;
+}
+
+g.graph-group g.chart-labels rect.color-label.inner-1 {
+  y: 0;
+  fill: #ffd5d7;
+}
+g.graph-group g.chart-labels rect.color-label.inner-2 {
+  y: 1em;
+  fill: #f9a7ac;
+}
+g.graph-group g.chart-labels rect.color-label.inner-3 {
+  y: 2em;
+  fill: #ed7883;
+}
+g.graph-group g.chart-labels rect.color-label.outter {
+  y: 3em;
+  fill: #de425b;
+}
+
+g.graph-group g.chart-labels text.label-text {
+  fill: white;
+  font-size: 70%;
+  opacity: 0.8;
+}
+
+g.graph-group g.chart-labels text.label-text.inner-1 {
+  transform: translateX(3.2em) translateY(1em);
+}
+g.graph-group g.chart-labels text.label-text.inner-2 {
+  transform: translateX(3.2em) translateY(2.5em);
+}
+g.graph-group g.chart-labels text.label-text.inner-3 {
+  transform: translateX(3.2em) translateY(4em);
+}
+g.graph-group g.chart-labels text.label-text.outter {
+  transform: translateX(3.2em) translateY(5.5em);
+}
+
+/* FINAL TEXT */
+g.graph-group g.final-text-group {
+  transform: translateX(15%);
+}
+
+g.graph-group g.final-text-group text.final-text {
+  font-size: 271%;
+  fill: white;
+  font-family: "Rajdhani", sans-serif;
+  text-transform: uppercase;
+  opacity: 0;
+}
+
+g.graph-group g.final-text-group text.final-text.ft-1 {
+  animation: ft1 var(--final-text-speed) ease forwards;
+  animation-delay: 1s;
+}
+@keyframes ft1 {
+  0% {
+    transform: translateX(0%) translateY(-20%);
+    opacity: 0.8;
+  }
+  100% {
+    transform: translateX(0%) translateY(20%);
+    opacity: 1;
+  }
+}
+
+g.graph-group g.final-text-group text.final-text.ft-2 {
+  animation: ft2 var(--final-text-speed) ease forwards;
+  animation-delay: 1s;
+}
+@keyframes ft2 {
+  0% {
+    transform: translateX(-20%) translateY(30%);
+    opacity: 0.8;
+  }
+  100% {
+    transform: translateX(0%) translateY(30%);
+    opacity: 1;
+  }
+}
+
+g.graph-group g.final-text-group text.final-text.ft-3 {
+  animation: ft3 var(--final-text-speed) ease forwards;
+  animation-delay: 1s;
+}
+@keyframes ft3 {
+  0% {
+    transform: translateX(100%) translateY(30%);
+    opacity: 0.8;
+  }
+  100% {
+    transform: translateX(43%) translateY(30%);
+    opacity: 1;
+  }
+}
+
+g.graph-group g.final-text-group text.final-text.ft-4 {
+  animation: ft4 var(--final-text-speed) ease forwards;
+  animation-delay: 1s;
+}
+@keyframes ft4 {
+  0% {
+    transform: translateX(0%) translateY(120%);
+    opacity: 0.8;
+  }
+  100% {
+    transform: translateX(0%) translateY(40%);
+    opacity: 1;
+  }
+}
+
+g.graph-group g.final-text-group text.final-text.ft-5 {
+  animation: ft5 var(--final-text-speed) ease forwards;
+  animation-delay: 1s;
+}
+@keyframes ft5 {
+  0% {
+    transform: translateX(0%) translateY(120%);
+    opacity: 0.8;
+  }
+  100% {
+    transform: translateX(0%) translateY(50%);
+    opacity: 1;
+  }
+}
+
+g.graph-group g.final-text-group text.final-text.ft-6 {
+  animation: ft6 var(--final-text-last-speed) ease forwards;
+  animation-delay: 1.5s;
+  opacity: 0;
+  font-size: 850%;
+  transform: translateX(0%) translateY(73%);
+}
+@keyframes ft6 {
+  to {
+    opacity: 1;
+  }
+}
+
+g.graph-group g.final-text-group text.final-text.ft-7 {
+  animation: ft7 var(--final-text-last-speed) ease forwards;
+  opacity: 0;
+  font-size: 140%;
+  animation-delay: 1.5s;
+  transform: translateX(33%) translateY(64%);
+}
+@keyframes ft7 {
+  to {
+    opacity: 1;
+  }
+}
+
+g.graph-group g.final-text-group text.final-text.ft-8 {
+  animation: ft8 var(--final-text-last-speed) ease forwards;
+  opacity: 0;
+  font-size: 140%;
+  animation-delay: 1.5s;
+  transform: translateX(33%) translateY(68%);
+}
+@keyframes ft8 {
+  to {
+    opacity: 1;
+  }
+}

@@ -1,0 +1,901 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link
+      href="https://fonts.googleapis.com/css?family=Rajdhani&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --final-text-speed: 0.5s;
+        --final-text-last-speed: 5s;
+      }
+
+      .graph-container {
+        width: 550px;
+        height: 550px;
+      }
+
+      svg.main-svg {
+        font-family: Arial, Helvetica, sans-serif;
+        background: #2e2e2e;
+        font-size: 14px;
+      }
+
+      /* MAIN TITLE */
+      g.title-group {
+        transform: translateY(6%);
+        fill: white;
+        text-transform: uppercase;
+        font-family: "Rajdhani", sans-serif;
+      }
+
+      g.title-group text.title {
+        font-size: 149%;
+        transform: translateX(3%);
+      }
+
+      g.title-group text.subtitle {
+        font-size: 80%;
+        transform: translateY(2.5%) translateX(3%);
+      }
+
+      g.title-group line.title-line {
+        stroke: white;
+        transform: translateY(4%);
+      }
+
+      /* GRAPH GROUP */
+      g.graph-group {
+        transform: translateY(6%);
+      }
+
+      /* CIRCLES */
+      g.graph-group circle.axis-circle {
+        fill: #e9e9e9;
+        stroke: white;
+      }
+
+      g.graph-group circle.axis-circle.inner-1 {
+        fill: #ffd5d7;
+      }
+      g.graph-group circle.axis-circle.inner-2 {
+        fill: #f9a7ac;
+      }
+      g.graph-group circle.axis-circle.inner-3 {
+        fill: #ed7883;
+      }
+      g.graph-group circle.axis-circle.outter {
+        fill: #de425b;
+      }
+
+      /* MONTHS */
+      g.graph-group line.month-separator {
+        transform-origin: 50% 50%;
+        stroke: white;
+      }
+
+      g.graph-group text.month-text {
+        transform-origin: 50% 50%;
+        font-size: 80%;
+        fill: white;
+      }
+
+      /* PATHS */
+      g.graph-group g.paths {
+        transform: translateX(50%) translateY(50%);
+        stroke: blue;
+        opacity: 0.8;
+        stroke-width: 0.5%;
+        fill: none;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+      }
+
+      g.graph-group g.paths path.old-year {
+        animation: fadePath 0.4s linear forwards;
+      }
+      @keyframes fadePath {
+        to {
+          stroke: #f7f7f7;
+          stroke-width: 0.1px;
+          opacity: 0.7;
+        }
+      }
+
+      g.graph-group g.paths circle.alert-circle {
+        fill: white;
+        stroke: red;
+        stroke-width: 0.1px;
+        opacity: 0.8;
+        animation: alertAppear 0.6s linear forwards;
+      }
+      @keyframes alertAppear {
+        0% {
+          r: 0%;
+          opacity: 0;
+        }
+        10% {
+          r: 4%;
+          opacity: 1;
+        }
+        100% {
+          r: 1%;
+          opacity: 0.8;
+        }
+      }
+
+      /* YEAR TEXT */
+      g.graph-group text.year-subtitle {
+        font-size: 100%;
+        fill: white;
+        transform: translateX(3%) translateY(11%);
+        font-family: "Rajdhani", sans-serif;
+      }
+
+      g.graph-group text.year-text {
+        font-size: 252%;
+        fill: white;
+        transform: translateX(2.2%) translateY(17%);
+      }
+
+      /* BUBBLE */
+      g.graph-group g.bubble-group circle.bubble {
+        fill: #488f31;
+        cx: 50%;
+        cy: 50%;
+        r: 6%;
+      }
+
+      g.graph-group g.bubble-group.changed circle.bubble {
+        fill: #de425b;
+        stroke: #f5c6cb;
+      }
+
+      g.graph-group g.bubble-group.updated circle.bubble {
+        animation: bubbleUpdated 0.6s linear forwards;
+      }
+      @keyframes bubbleUpdated {
+        10% {
+          r: 8%;
+          opacity: 0.9;
+        }
+        100% {
+          r: 6%;
+          opacity: 1;
+        }
+      }
+
+      g.graph-group g.bubble-group.ended circle.bubble {
+        animation: bubbleEnded 1s linear forwards;
+      }
+      @keyframes bubbleEnded {
+        to {
+          r: 100%;
+        }
+      }
+
+      g.graph-group g.bubble-group text.text-bubble {
+        fill: white;
+        font-size: 170%;
+      }
+
+      g.graph-group g.bubble-group text.text-bubble-subtitle {
+        fill: white;
+        font-size: 70%;
+        transform: translateY(2.5%);
+      }
+
+      g.graph-group g.bubble-group.ended text.text-bubble {
+        animation: bubbleTextEnded 1s linear forwards;
+      }
+      @keyframes bubbleTextEnded {
+        to {
+          font-size: 430%;
+          transform: translateX(1%) translateY(-19%);
+        }
+      }
+
+      g.graph-group g.bubble-group.ended text.text-bubble-subtitle {
+        display: none;
+      }
+
+      /* LABELS */
+      g.graph-group g.chart-labels {
+        transform: translateX(2%) translateY(80%);
+      }
+
+      g.graph-group g.chart-labels rect.color-label {
+        width: 2em;
+        height: 1em;
+        stroke: white;
+      }
+
+      g.graph-group g.chart-labels rect.color-label.inner-1 {
+        y: 0;
+        fill: #ffd5d7;
+      }
+      g.graph-group g.chart-labels rect.color-label.inner-2 {
+        y: 1em;
+        fill: #f9a7ac;
+      }
+      g.graph-group g.chart-labels rect.color-label.inner-3 {
+        y: 2em;
+        fill: #ed7883;
+      }
+      g.graph-group g.chart-labels rect.color-label.outter {
+        y: 3em;
+        fill: #de425b;
+      }
+
+      g.graph-group g.chart-labels text.label-text {
+        fill: white;
+        font-size: 70%;
+        opacity: 0.8;
+      }
+
+      g.graph-group g.chart-labels text.label-text.inner-1 {
+        transform: translateX(3.2em) translateY(1em);
+      }
+      g.graph-group g.chart-labels text.label-text.inner-2 {
+        transform: translateX(3.2em) translateY(2.5em);
+      }
+      g.graph-group g.chart-labels text.label-text.inner-3 {
+        transform: translateX(3.2em) translateY(4em);
+      }
+      g.graph-group g.chart-labels text.label-text.outter {
+        transform: translateX(3.2em) translateY(5.5em);
+      }
+
+      /* FINAL TEXT */
+      g.graph-group g.final-text-group {
+        transform: translateX(15%);
+      }
+
+      g.graph-group g.final-text-group text.final-text {
+        font-size: 271%;
+        fill: white;
+        font-family: "Rajdhani", sans-serif;
+        text-transform: uppercase;
+        opacity: 0;
+      }
+
+      g.graph-group g.final-text-group text.final-text.ft-1 {
+        animation: ft1 var(--final-text-speed) ease forwards;
+        animation-delay: 1s;
+      }
+      @keyframes ft1 {
+        0% {
+          transform: translateX(0%) translateY(-20%);
+          opacity: 0.8;
+        }
+        100% {
+          transform: translateX(0%) translateY(20%);
+          opacity: 1;
+        }
+      }
+
+      g.graph-group g.final-text-group text.final-text.ft-2 {
+        animation: ft2 var(--final-text-speed) ease forwards;
+        animation-delay: 1s;
+      }
+      @keyframes ft2 {
+        0% {
+          transform: translateX(-20%) translateY(30%);
+          opacity: 0.8;
+        }
+        100% {
+          transform: translateX(0%) translateY(30%);
+          opacity: 1;
+        }
+      }
+
+      g.graph-group g.final-text-group text.final-text.ft-3 {
+        animation: ft3 var(--final-text-speed) ease forwards;
+        animation-delay: 1s;
+      }
+      @keyframes ft3 {
+        0% {
+          transform: translateX(100%) translateY(30%);
+          opacity: 0.8;
+        }
+        100% {
+          transform: translateX(43%) translateY(30%);
+          opacity: 1;
+        }
+      }
+
+      g.graph-group g.final-text-group text.final-text.ft-4 {
+        animation: ft4 var(--final-text-speed) ease forwards;
+        animation-delay: 1s;
+      }
+      @keyframes ft4 {
+        0% {
+          transform: translateX(0%) translateY(120%);
+          opacity: 0.8;
+        }
+        100% {
+          transform: translateX(0%) translateY(40%);
+          opacity: 1;
+        }
+      }
+
+      g.graph-group g.final-text-group text.final-text.ft-5 {
+        animation: ft5 var(--final-text-speed) ease forwards;
+        animation-delay: 1s;
+      }
+      @keyframes ft5 {
+        0% {
+          transform: translateX(0%) translateY(120%);
+          opacity: 0.8;
+        }
+        100% {
+          transform: translateX(0%) translateY(50%);
+          opacity: 1;
+        }
+      }
+
+      g.graph-group g.final-text-group text.final-text.ft-6 {
+        animation: ft6 var(--final-text-last-speed) ease forwards;
+        animation-delay: 1.5s;
+        opacity: 0;
+        font-size: 850%;
+        transform: translateX(0%) translateY(73%);
+      }
+      @keyframes ft6 {
+        to {
+          opacity: 1;
+        }
+      }
+
+      g.graph-group g.final-text-group text.final-text.ft-7 {
+        animation: ft7 var(--final-text-last-speed) ease forwards;
+        opacity: 0;
+        font-size: 140%;
+        animation-delay: 1.5s;
+        transform: translateX(33%) translateY(64%);
+      }
+      @keyframes ft7 {
+        to {
+          opacity: 1;
+        }
+      }
+
+      g.graph-group g.final-text-group text.final-text.ft-8 {
+        animation: ft8 var(--final-text-last-speed) ease forwards;
+        opacity: 0;
+        font-size: 140%;
+        animation-delay: 1.5s;
+        transform: translateX(33%) translateY(68%);
+      }
+      @keyframes ft8 {
+        to {
+          opacity: 1;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="graph-container" class="graph-container"></div>
+
+    <script>
+      // functions
+      function createMainSvg(parent_element, parent_width, parent_height) {
+        const main_svg = document.createElementNS(
+          "http://www.w3.org/2000/svg",
+          "svg"
+        );
+        main_svg.setAttribute("width", parent_width);
+        main_svg.setAttribute("height", parent_height);
+        main_svg.classList.add("main-svg");
+        parent_element.appendChild(main_svg);
+        return main_svg;
+      }
+
+      function createTitle(main_svg) {
+        // create group
+        let group = document.createElementNS("http://www.w3.org/2000/svg", "g");
+        group.classList.add("title-group");
+        main_svg.appendChild(group);
+
+        // create text
+        let text = document.createElementNS(
+          "http://www.w3.org/2000/svg",
+          "text"
+        );
+        text.classList.add("title");
+        text.innerHTML =
+          "Santago, Chile - temperaturas sobre los 35ºC 1980-2019";
+        group.appendChild(text);
+
+        let subtitle = document.createElementNS(
+          "http://www.w3.org/2000/svg",
+          "text"
+        );
+        subtitle.classList.add("subtitle");
+        subtitle.innerHTML =
+          "*Temperatura del Aire Seco Estación Quinta Normal, Santiago. meteochile.gob.cl";
+        group.appendChild(subtitle);
+
+        // create line
+        let line = document.createElementNS(
+          "http://www.w3.org/2000/svg",
+          "line"
+        );
+        line.classList.add("title-line");
+        line.setAttribute("x1", "3%");
+        line.setAttribute("x2", "97%");
+        line.setAttribute("y1", "0%");
+        line.setAttribute("y2", "0%");
+        group.appendChild(line);
+      }
+
+      function createGraphGroup(main_svg) {
+        let group = document.createElementNS("http://www.w3.org/2000/svg", "g");
+        group.classList.add("graph-group");
+        main_svg.appendChild(group);
+        return group;
+      }
+
+      function drawInnerCircles(graph_svg, alert_temp, max_temp, max_per) {
+        let circles = [];
+        const params = [
+          // max temp
+          {
+            r: max_per,
+            c: "outter"
+          },
+          // alert temp
+          {
+            r: Math.round((alert_temp / max_temp) * max_per),
+            c: "inner-3"
+          },
+          // 25 ºC
+          {
+            r: Math.round((25 / max_temp) * max_per),
+            c: "inner-2"
+          },
+          // 15 ºC
+          {
+            r: Math.round((15 / max_temp) * max_per),
+            c: "inner-1"
+          }
+        ];
+        for (let c of params) {
+          let circle = document.createElementNS(
+            "http://www.w3.org/2000/svg",
+            "circle"
+          );
+          circle.setAttribute("cx", "50%");
+          circle.setAttribute("cy", "50%");
+          circle.setAttribute("r", c.r + "%");
+          circle.classList.add("axis-circle", c.c);
+          graph_svg.appendChild(circle);
+          circles.push(circle);
+        }
+        return circles;
+      }
+
+      function drawInnerLinesSeparator(graph_svg) {
+        let lines = [];
+        for (let i = 1; i <= 12; i++) {
+          let line = document.createElementNS(
+            "http://www.w3.org/2000/svg",
+            "line"
+          );
+          line.setAttribute("x1", "50%");
+          line.setAttribute("y1", "50%");
+          line.setAttribute("x2", "50%");
+          line.setAttribute("y2", "10%");
+          line.setAttribute("transform", `rotate(${(i - 1) * (360 / 12)})`);
+          line.classList.add("month-separator");
+          graph_svg.appendChild(line);
+          lines.push(line);
+        }
+        return lines;
+      }
+
+      function drawMonthsTexts(graph_svg) {
+        let texts = [];
+        const months = [
+          "enero",
+          "febrero",
+          "marzo",
+          "abril",
+          "mayo",
+          "junio",
+          "julio",
+          "agosto",
+          "septriembre",
+          "octubre",
+          "noviembre",
+          "diciembre"
+        ];
+        for (let i = 1; i <= 12; i++) {
+          // crate the text element
+          let text = document.createElementNS(
+            "http://www.w3.org/2000/svg",
+            "text"
+          );
+          text.setAttribute("x", "50%");
+          text.setAttribute("y", "9%");
+          text.setAttribute("text-anchor", "middle");
+          text.setAttribute(
+            "transform",
+            `rotate(${(i - 1) * (360 / 12) + 360 / (12 * 2)})`
+          );
+          text.classList.add("month-text");
+          text.innerHTML = months[i - 1];
+          graph_svg.appendChild(text);
+          texts.push(text);
+        }
+        return texts;
+      }
+
+      function createGraphLabels(graph_svg) {
+        let group = document.createElementNS("http://www.w3.org/2000/svg", "g");
+        group.classList.add("chart-labels");
+        group.innerHTML = `
+          <rect class="color-label inner-1"></rect>
+          <rect class="color-label inner-2"></rect>
+          <rect class="color-label inner-3"></rect>
+          <rect class="color-label outter"></rect>
+          <text class="label-text inner-1">00-15ºC</text>
+          <text class="label-text inner-2">16-25ºC</text>
+          <text class="label-text inner-3">26-35ºC</text>
+          <text class="label-text outter">36-45ºC</text>
+        `;
+        graph_svg.appendChild(group);
+        return group;
+      }
+
+      function createPathsGroup(graph_svg) {
+        let path_group = document.createElementNS(
+          "http://www.w3.org/2000/svg",
+          "g"
+        );
+        path_group.classList.add("paths");
+        graph_svg.appendChild(path_group);
+        return path_group;
+      }
+
+      function createYearsPaths(years, path_group) {
+        let years_paths = {};
+        for (year of years) {
+          let path = document.createElementNS(
+            "http://www.w3.org/2000/svg",
+            "path"
+          );
+          path_group.appendChild(path);
+          years_paths[year.year] = path;
+        }
+        return years_paths;
+      }
+
+      function getCoordinatesFromPoint(p, graph_radio, max_temp) {
+        const angle =
+          (p.m - 1) * ((2 * Math.PI) / 12) +
+          ((2 * Math.PI) / 12 / 31) * (p.d - 1);
+        const x = (p.t / max_temp) * graph_radio * Math.sin(angle);
+        const y = -1 * ((p.t / max_temp) * graph_radio) * Math.cos(angle);
+        return [Math.round(100 * x) / 100, Math.round(100 * y) / 100];
+      }
+
+      function getSleepTimeOnMonth(month, year) {
+        const delay = year <= 2000 ? 0 : 10;
+        if (month == 11) return delay * 1.0;
+        if (month == 12) return delay * 2.5;
+        if (month == 1) return delay * 2.0;
+        if (month == 2) return delay * 2.0;
+        if (month == 3) return delay * 1.5;
+        if (month == 4) return delay * 1.0;
+        return delay * 0.0;
+      }
+
+      function drawAlertCricle(path_group, p, graph_radio, max_temp) {
+        const coord = getCoordinatesFromPoint(p, graph_radio, max_temp);
+        let circle = document.createElementNS(
+          "http://www.w3.org/2000/svg",
+          "circle"
+        );
+        circle.setAttribute("cx", coord[0]);
+        circle.setAttribute("cy", coord[1]);
+        circle.setAttribute("r", "1%");
+        circle.classList.add("alert-circle");
+        path_group.appendChild(circle);
+      }
+
+      function createYearText(graph_svg) {
+        let subtitle = document.createElementNS(
+          "http://www.w3.org/2000/svg",
+          "text"
+        );
+        subtitle.classList.add("year-subtitle");
+        subtitle.innerHTML = "AÑO";
+        graph_svg.appendChild(subtitle);
+
+        let text = document.createElementNS(
+          "http://www.w3.org/2000/svg",
+          "text"
+        );
+        text.classList.add("year-text");
+        text.innerHTML = "";
+        graph_svg.appendChild(text);
+        return text;
+      }
+
+      function updateYearText(years_text, year) {
+        years_text.innerHTML = year;
+      }
+
+      function createBubble(graph_svg, alert_temp) {
+        // first create group
+        let path_group = document.createElementNS(
+          "http://www.w3.org/2000/svg",
+          "g"
+        );
+        path_group.classList.add("bubble-group");
+        graph_svg.appendChild(path_group);
+
+        // create alert bubble
+        let circle = document.createElementNS(
+          "http://www.w3.org/2000/svg",
+          "circle"
+        );
+        circle.classList.add("bubble");
+        path_group.appendChild(circle);
+
+        // create bubble text
+        let text_bubble = document.createElementNS(
+          "http://www.w3.org/2000/svg",
+          "text"
+        );
+        text_bubble.classList.add("text-bubble");
+        text_bubble.setAttribute("x", "50%");
+        text_bubble.setAttribute("y", "50%");
+        text_bubble.setAttribute("text-anchor", "middle");
+        text_bubble.innerHTML = 0;
+        path_group.appendChild(text_bubble);
+
+        // create bubble subtitle
+        let subtitle = document.createElementNS(
+          "http://www.w3.org/2000/svg",
+          "text"
+        );
+        subtitle.classList.add("text-bubble-subtitle");
+        subtitle.setAttribute("x", "50%");
+        subtitle.setAttribute("y", "50%");
+        subtitle.setAttribute("text-anchor", "middle");
+        subtitle.innerHTML = "ALERTAS";
+        path_group.appendChild(subtitle);
+
+        // return object with elements
+        return { group: path_group, bubble: circle, text: text_bubble, n: 0 };
+      }
+
+      async function updateBubble(bubble, touched) {
+        // update first class
+        if (bubble.n == 0) {
+          bubble.group.classList.add("changed");
+        }
+
+        // update text
+        bubble.n += 1;
+        bubble.text.innerHTML = bubble.n;
+
+        // set and unset class
+        bubble.group.classList.add("updated");
+        await new Promise(resolve => setTimeout(resolve, 600));
+        bubble.group.classList.remove("updated");
+      }
+
+      function createFinalTextGroup(graph_svg, alert_temp, acumulative_cases) {
+        // get the % for the last xx years
+        const years = 10;
+        const final = acumulative_cases[acumulative_cases.length - 1];
+        const diff =
+          final - acumulative_cases[acumulative_cases.length - years];
+        const perc = Math.round((100 * diff) / final);
+
+        // first create group
+        let group = document.createElementNS("http://www.w3.org/2000/svg", "g");
+        group.classList.add("final-text-group");
+        graph_svg.appendChild(group);
+
+        // create texts
+        const texts = [
+          { t: "En los últimos 40 años", c: "ft-1" },
+          { t: "hubieron", c: "ft-2" },
+          { t: "días", c: "ft-3" },
+          { t: "donde la temperatura", c: "ft-4" },
+          { t: `máxima superó los ${alert_temp}ºC`, c: "ft-5" },
+          { t: perc + "%", c: "ft-6" },
+          { t: "de los casos ocurrieron", c: "ft-7" },
+          { t: `en los últimos ${years} años`, c: "ft-8" }
+        ];
+        for (let t of texts) {
+          let text = document.createElementNS(
+            "http://www.w3.org/2000/svg",
+            "text"
+          );
+          text.classList.add("final-text", t.c);
+          text.innerHTML = t.t;
+          group.appendChild(text);
+        }
+        return group;
+      }
+
+      // helpers
+      function getDummieData() {
+        let years = [];
+        for (let y = 1980; y <= 2019; y++) {
+          let year = {
+            year: y,
+            graph_points: []
+          };
+          for (let m = 1; m <= 12; m++) {
+            for (let d = 1; d <= 31; d++) {
+              let last_point_t = 30;
+              year.graph_points.push({
+                m: m,
+                d: d,
+                t: last_point_t + (Math.random() - 0.5) * 2 * 5
+              });
+            }
+          }
+          years.push(year);
+        }
+        return years;
+      }
+
+      async function getRealData() {
+        const years = await fetch("http://localhost:3000").then(r => r.json());
+        return years;
+      }
+
+      // get the parent object
+      const parent_element = document.getElementById("graph-container");
+      const parent_width = parent_element.getBoundingClientRect().width;
+      const parent_height = parent_element.getBoundingClientRect().height;
+
+      // default
+      const max_per = 40;
+      const graph_radio = (max_per / 100) * parent_width;
+      const max_temp = 45;
+      const alert_temp = 35;
+
+      // run
+      (async () => {
+        console.time("total");
+
+        // get data
+        const years = await getRealData();
+        //const dummie_years = getDummieData();
+
+        // create a svg object and append it to the parent
+        const main_svg = createMainSvg(
+          parent_element,
+          parent_width,
+          parent_height
+        );
+
+        // create title
+        createTitle(main_svg);
+
+        // create a group containing the graph
+        const graph_svg = createGraphGroup(main_svg);
+
+        // draw the inner circles (ºC axis)
+        drawInnerCircles(graph_svg, alert_temp, max_temp, max_per);
+
+        // draw the month lines separators
+        drawInnerLinesSeparator(graph_svg);
+
+        // draw the month text
+        drawMonthsTexts(graph_svg);
+
+        // draw the labels
+        createGraphLabels(graph_svg);
+
+        // wait for viewer to catch on
+        await new Promise(resolve => setTimeout(resolve, 1500));
+
+        // draw graph path
+        // create group
+        let path_group = createPathsGroup(graph_svg);
+
+        // create paths elements for all years
+        let years_paths = createYearsPaths(years, path_group);
+
+        // create years text
+        years_text = createYearText(graph_svg);
+
+        // draw the alert bubble
+        let bubble = createBubble(graph_svg, alert_temp);
+
+        // initiate the acumulative cases
+        acumulative_cases = [];
+
+        // DRAW!
+        let first_alert = false;
+        let years_passed = 0;
+        for (let year of years) {
+          // get the year path
+          let path = years_paths[year.year];
+
+          // update text
+          updateYearText(years_text, year.year);
+
+          // draw the first point
+          const p = year.graph_points[0];
+          const coord = getCoordinatesFromPoint(p, graph_radio, max_temp);
+          let d = `M ${coord[0]} ${coord[1]} `;
+
+          // if temperature above alert_temp
+          if (p.t > alert_temp) {
+            drawAlertCricle(path_group, p, graph_radio, max_temp);
+            updateBubble(bubble);
+          }
+
+          // draw the rest
+          for (let p of year.graph_points) {
+            // wait to render
+            if (!first_alert) {
+              if (years_passed <= 2) {
+                if (p.m == 12 || p.m <= 4) {
+                  await new Promise(resolve => setTimeout(resolve, 10));
+                } else if (p.d % 4 == 0) {
+                  await new Promise(resolve => setTimeout(resolve, 0));
+                }
+              }
+              if (p.d % 6 == 0) {
+                await new Promise(resolve => setTimeout(resolve, 0));
+              }
+            } else {
+              if (p.m == 12 || p.m <= 4) {
+                await new Promise(resolve => setTimeout(resolve, 10));
+              } else if (p.d % 4 == 0) {
+                await new Promise(resolve => setTimeout(resolve, 0));
+              }
+            }
+
+            // draw line
+            const coord = getCoordinatesFromPoint(p, graph_radio, max_temp);
+            d += `L ${coord[0]} ${coord[1]} `;
+            path.setAttribute("d", d);
+
+            // if temperature above alert_temp
+            if (p.t > alert_temp) {
+              first_alert = true;
+              drawAlertCricle(path_group, p, graph_radio, max_temp);
+              updateBubble(bubble);
+            }
+          }
+
+          // change year class
+          path.classList.add(["old-year"]);
+
+          // passed
+          years_passed += 1;
+
+          // save acumulative
+          const a = bubble.n;
+          acumulative_cases.push(a);
+        }
+
+        // start final animation
+        bubble.group.classList.add("ended");
+
+        // create final text group
+        createFinalTextGroup(graph_svg, alert_temp, acumulative_cases);
+
+        // wait for it
+        // await new Promise(resolve => setTimeout(resolve, 10000));
+
+        // build last message
+
+        console.timeEnd("total");
+      })();
+    </script>
+  </body>
+</html>

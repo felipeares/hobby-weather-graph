@@ -1,0 +1,13 @@
+body {
+  background: #f7f7f7;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.graph-container {
+  width: 550px;
+  height: 550px;
+  box-shadow: 5px 5px 8px 0px rgba(0, 0, 0, 0.4);
+}
