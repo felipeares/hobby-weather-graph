@@ -17,20 +17,23 @@ svg.main-svg {
 
 /* MAIN TITLE */
 g.title-group {
-  transform: translateY(6%);
   fill: white;
   text-transform: uppercase;
   font-family: "Rajdhani", sans-serif;
+
+  transform: translateX(3%) translateY(6%);
+  -ms-transform: translateX(3%) translateY(6%);
+  -webkit-transform: translateX(3%) translateY(6%);
+  -moz-transform: translateX(3%) translateY(6%);
+  -o-transform: translateX(3%) translateY(6%);
 }
 
 g.title-group text.title {
   font-size: 149%;
-  transform: translateX(3%);
 }
 
 g.title-group text.subtitle {
   font-size: 80%;
-  transform: translateY(2.5%) translateX(3%);
 }
 
 g.title-group line.title-line {
@@ -64,12 +67,10 @@ g.graph-group circle.axis-circle.outter {
 
 /* MONTHS */
 g.graph-group line.month-separator {
-  transform-origin: 50% 50%;
   stroke: white;
 }
 
 g.graph-group text.month-text {
-  transform-origin: 50% 50%;
   font-size: 80%;
   fill: white;
 }
@@ -119,17 +120,23 @@ g.graph-group g.paths circle.alert-circle {
 }
 
 /* YEAR TEXT */
-g.graph-group text.year-subtitle {
+g.year-text {
+  transform: translateX(3%) translateY(11%);
+  -ms-transform: translateX(3%) translateY(11%);
+  -webkit-transform: translateX(3%) translateY(11%);
+  -moz-transform: translateX(3%) translateY(11%);
+  -o-transform: translateX(3%) translateY(11%);
+}
+
+g.graph-group g.year-text text.year-subtitle {
   font-size: 100%;
   fill: white;
-  transform: translateX(3%) translateY(11%);
   font-family: "Rajdhani", sans-serif;
 }
 
-g.graph-group text.year-text {
+g.graph-group g.year-text text.year-text {
   font-size: 252%;
   fill: white;
-  transform: translateX(2.2%) translateY(17%);
 }
 
 /* BUBBLE */
@@ -168,23 +175,25 @@ g.graph-group g.bubble-group.ended circle.bubble {
   }
 }
 
+g.graph-group g.bubble-group {
+  font-size: 170%;
+}
+
 g.graph-group g.bubble-group text.text-bubble {
   fill: white;
-  font-size: 170%;
 }
 
 g.graph-group g.bubble-group text.text-bubble-subtitle {
   fill: white;
-  font-size: 70%;
-  transform: translateY(2.5%);
+  font-size: 46%;
 }
 
-g.graph-group g.bubble-group.ended text.text-bubble {
+g.graph-group g.bubble-group.ended {
   animation: bubbleTextEnded 1s linear forwards;
 }
 @keyframes bubbleTextEnded {
   to {
-    font-size: 430%;
+    font-size: 70px; /* TODO: fix to % */
     transform: translateX(1%) translateY(-19%);
   }
 }
@@ -243,32 +252,38 @@ g.graph-group g.chart-labels text.label-text.outter {
 /* FINAL TEXT */
 g.graph-group g.final-text-group {
   transform: translateX(15%);
+  -ms-transform: translateX(15%);
+  -webkit-transform: translateX(15%);
+  -moz-transform: translateX(15%);
+  -o-transform: translateX(15%);
 }
 
-g.graph-group g.final-text-group text.final-text {
+g.graph-group g.final-text-group g.final-text {
+  opacity: 0;
   font-size: 271%;
+}
+
+g.graph-group g.final-text-group g.final-text text {
   fill: white;
   font-family: "Rajdhani", sans-serif;
   text-transform: uppercase;
-  opacity: 0;
 }
 
-g.graph-group g.final-text-group text.final-text.ft-1 {
-  animation: ft1 var(--final-text-speed) ease forwards;
-  animation-delay: 1s;
+g.graph-group g.final-text-group g.final-text.ft-1 {
+  animation: ft1 var(--final-text-speed) ease 1s forwards;
 }
 @keyframes ft1 {
   0% {
-    transform: translateX(0%) translateY(-20%);
     opacity: 0.8;
+    transform: translateX(0%) translateY(-20%);
   }
   100% {
-    transform: translateX(0%) translateY(20%);
     opacity: 1;
+    transform: translateX(0%) translateY(20%);
   }
 }
 
-g.graph-group g.final-text-group text.final-text.ft-2 {
+g.graph-group g.final-text-group g.final-text.ft-2 {
   animation: ft2 var(--final-text-speed) ease forwards;
   animation-delay: 1s;
 }
@@ -283,7 +298,7 @@ g.graph-group g.final-text-group text.final-text.ft-2 {
   }
 }
 
-g.graph-group g.final-text-group text.final-text.ft-3 {
+g.graph-group g.final-text-group g.final-text.ft-3 {
   animation: ft3 var(--final-text-speed) ease forwards;
   animation-delay: 1s;
 }
@@ -298,7 +313,7 @@ g.graph-group g.final-text-group text.final-text.ft-3 {
   }
 }
 
-g.graph-group g.final-text-group text.final-text.ft-4 {
+g.graph-group g.final-text-group g.final-text.ft-4 {
   animation: ft4 var(--final-text-speed) ease forwards;
   animation-delay: 1s;
 }
@@ -313,7 +328,7 @@ g.graph-group g.final-text-group text.final-text.ft-4 {
   }
 }
 
-g.graph-group g.final-text-group text.final-text.ft-5 {
+g.graph-group g.final-text-group g.final-text.ft-5 {
   animation: ft5 var(--final-text-speed) ease forwards;
   animation-delay: 1s;
 }
@@ -328,7 +343,7 @@ g.graph-group g.final-text-group text.final-text.ft-5 {
   }
 }
 
-g.graph-group g.final-text-group text.final-text.ft-6 {
+g.graph-group g.final-text-group g.final-text.ft-6 {
   animation: ft6 var(--final-text-last-speed) ease forwards;
   animation-delay: 1.5s;
   opacity: 0;
@@ -341,12 +356,12 @@ g.graph-group g.final-text-group text.final-text.ft-6 {
   }
 }
 
-g.graph-group g.final-text-group text.final-text.ft-7 {
+g.graph-group g.final-text-group g.final-text.ft-7 {
   animation: ft7 var(--final-text-last-speed) ease forwards;
   opacity: 0;
   font-size: 140%;
   animation-delay: 1.5s;
-  transform: translateX(33%) translateY(64%);
+  transform: translateX(35%) translateY(64%);
 }
 @keyframes ft7 {
   to {
@@ -354,12 +369,12 @@ g.graph-group g.final-text-group text.final-text.ft-7 {
   }
 }
 
-g.graph-group g.final-text-group text.final-text.ft-8 {
+g.graph-group g.final-text-group g.final-text.ft-8 {
   animation: ft8 var(--final-text-last-speed) ease forwards;
   opacity: 0;
   font-size: 140%;
   animation-delay: 1.5s;
-  transform: translateX(33%) translateY(68%);
+  transform: translateX(35%) translateY(68%);
 }
 @keyframes ft8 {
   to {

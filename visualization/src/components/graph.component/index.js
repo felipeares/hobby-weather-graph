@@ -50,13 +50,14 @@ class GraphComponent {
     subtitle.classList.add("subtitle");
     subtitle.innerHTML =
       "*Temperatura del Aire Seco Estación Quinta Normal, Santiago. meteochile.gob.cl";
+    subtitle.setAttribute("y", "2.5%");
     group.appendChild(subtitle);
 
     // create line
     let line = document.createElementNS("http://www.w3.org/2000/svg", "line");
     line.classList.add("title-line");
-    line.setAttribute("x1", "3%");
-    line.setAttribute("x2", "97%");
+    line.setAttribute("x1", "0%");
+    line.setAttribute("x2", "94%");
     line.setAttribute("y1", "0%");
     line.setAttribute("y2", "0%");
     group.appendChild(line);
@@ -116,7 +117,12 @@ class GraphComponent {
       line.setAttribute("y1", "50%");
       line.setAttribute("x2", "50%");
       line.setAttribute("y2", "10%");
-      line.setAttribute("transform", `rotate(${(i - 1) * (360 / 12)})`);
+      line.setAttribute(
+        "transform",
+        `rotate(${(i - 1) * (360 / 12)}, 
+        ${Math.round(this.parent_width / 2)}, 
+        ${Math.round(this.parent_width / 2)})`
+      );
       line.classList.add("month-separator");
       graph_svg.appendChild(line);
       lines.push(line);
@@ -148,7 +154,11 @@ class GraphComponent {
       text.setAttribute("text-anchor", "middle");
       text.setAttribute(
         "transform",
-        `rotate(${(i - 1) * (360 / 12) + 360 / (12 * 2)})`
+        `rotate(
+          ${(i - 1) * (360 / 12) + 360 / (12 * 2)},
+          ${Math.round(this.parent_width / 2)},
+          ${Math.round(this.parent_width / 2)}
+        )`
       );
       text.classList.add("month-text");
       text.innerHTML = months[i - 1];
@@ -228,18 +238,25 @@ class GraphComponent {
   }
 
   createYearText(graph_svg) {
+    // create group
+    let group = document.createElementNS("http://www.w3.org/2000/svg", "g");
+    group.classList.add("year-text");
+    graph_svg.appendChild(group);
+
     let subtitle = document.createElementNS(
       "http://www.w3.org/2000/svg",
       "text"
     );
     subtitle.classList.add("year-subtitle");
     subtitle.innerHTML = "AÑO";
-    graph_svg.appendChild(subtitle);
+    group.appendChild(subtitle);
 
     let text = document.createElementNS("http://www.w3.org/2000/svg", "text");
     text.classList.add("year-text");
     text.innerHTML = "";
-    graph_svg.appendChild(text);
+    text.setAttribute("x", "-1.0%");
+    text.setAttribute("y", "6%");
+    group.appendChild(text);
     return text;
   }
 
@@ -283,7 +300,7 @@ class GraphComponent {
     );
     subtitle.classList.add("text-bubble-subtitle");
     subtitle.setAttribute("x", "50%");
-    subtitle.setAttribute("y", "50%");
+    subtitle.setAttribute("y", "52.5%");
     subtitle.setAttribute("text-anchor", "middle");
     subtitle.innerHTML = "ALERTAS";
     path_group.appendChild(subtitle);
@@ -332,10 +349,18 @@ class GraphComponent {
       { t: `en los últimos ${years} años`, c: "ft-8" }
     ];
     for (let t of texts) {
+      // create an inner group for CSS translate use
+      let text_group = document.createElementNS(
+        "http://www.w3.org/2000/svg",
+        "g"
+      );
+      text_group.classList.add("final-text", t.c);
+      group.appendChild(text_group);
+
+      // create the text
       let text = document.createElementNS("http://www.w3.org/2000/svg", "text");
-      text.classList.add("final-text", t.c);
       text.innerHTML = t.t;
-      group.appendChild(text);
+      text_group.appendChild(text);
     }
     return group;
   }

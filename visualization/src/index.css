@@ -2,12 +2,50 @@ body {
   background: #f7f7f7;
   height: 100vh;
   display: flex;
+  flex-flow: column;
   align-items: center;
   justify-content: center;
+  font-family: Arial, Helvetica, sans-serif;
 }
 
 .graph-container {
   width: 550px;
   height: 550px;
   box-shadow: 5px 5px 8px 0px rgba(0, 0, 0, 0.4);
+}
+
+.safari-nessage {
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #555;
+  font-size: 20px;
+  font-weight: 100;
+  flex-flow: column;
+  height: inherit;
+  padding: 10%;
+}
+
+.label {
+  width: 550px;
+  margin-top: 18px;
+  text-align: center;
+  font-weight: 100;
+}
+
+.label p {
+  margin: 0;
+  font-size: 18px;
+  color: #444;
+}
+
+.label p.sm {
+  font-size: 14px;
+  color: #ccc;
+}
+
+.label a {
+  color: #de425b;
+  text-decoration: none;
 }
