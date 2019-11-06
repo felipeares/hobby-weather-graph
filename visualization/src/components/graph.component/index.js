@@ -340,7 +340,7 @@ class GraphComponent {
     // create texts
     const texts = [
       { t: "En los últimos 40 años", c: "ft-1" },
-      { t: "hubieron", c: "ft-2" },
+      { t: "hubo", c: "ft-2" },
       { t: "días", c: "ft-3" },
       { t: "donde la temperatura", c: "ft-4" },
       { t: `máxima superó los ${this.alert_temp}ºC`, c: "ft-5" },

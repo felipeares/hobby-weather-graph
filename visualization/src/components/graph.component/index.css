@@ -194,7 +194,7 @@ g.graph-group g.bubble-group.ended {
 @keyframes bubbleTextEnded {
   to {
     font-size: 70px; /* TODO: fix to % */
-    transform: translateX(1%) translateY(-19%);
+    transform: translateX(-10%) translateY(-19%);
   }
 }
 
@@ -308,7 +308,7 @@ g.graph-group g.final-text-group g.final-text.ft-3 {
     opacity: 0.8;
   }
   100% {
-    transform: translateX(43%) translateY(30%);
+    transform: translateX(33%) translateY(30%);
     opacity: 1;
   }
 }
