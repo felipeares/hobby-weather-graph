@@ -9,7 +9,6 @@ class ClimaScraper {
     let dates = [];
     for (let y = from; y <= to; y++) {
       for (let m = 1; m <= 12; m++) {
-        if (y == 2019 && m > 9) continue;
         dates.push([y, m]);
       }
     }
@@ -135,4 +134,4 @@ class ClimaScraper {
 }
 
 const clima = new ClimaScraper();
-clima.saveMinifiedData();
+clima.run().then(() => console.log("ENDED"));

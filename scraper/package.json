@@ -4,7 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "update:data": "node index.js",
+    "move:data": "cp ./data_min.json ../visualization/src/components/graph.component/data/data_min.json",
+    "start": "npm run update:data && npm run move:data"
   },
   "keywords": [],
   "author": "",
