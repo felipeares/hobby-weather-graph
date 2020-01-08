@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "webpack",
-    "watch": "webpack --watch"
+    "watch": "webpack --watch",
+    "deploy": "aws s3 sync ./dist/ s3://santiago-temperaturas/ --exclude '*.DS_Store' --profile felipeares"
   },
   "keywords": [],
   "author": "",
